@@ -1,30 +1,31 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
-import {ServerResponse} from "../../models/models";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { LOGIN_KEY} from "../../utils/constans";
 
-export const fetchLoginUser = createAsyncThunk('userLogin', async () => {
-    const response = await axios.get<ServerResponse[], any>('http://localhost:3001/profile');
-    return response.data;
+
+export interface AuthState {
+    login: string
+}
+
+
+const initialState: AuthState = {
+    login: JSON.parse(localStorage.getItem(LOGIN_KEY) ?? '')
+};
+
+
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        loginUser: (state, action: PayloadAction<{user:string}>) => {
+
+            state.login = action.payload.user
+            localStorage.setItem(LOGIN_KEY, JSON.stringify(action.payload.user))
+        },
+        logoutUser: (state) => {
+            localStorage.removeItem(LOGIN_KEY);
+        },
+    }
 });
 
-const loginUser = createSlice({
-    name: 'login',
-    initialState: {
-        username: '',
-        password: '',
-        loading: false,
-    },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchLoginUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(fetchLoginUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.films = action.payload;
-            });
-    },
-});
-
-export default loginUser.reducer;
+export const authAction = authSlice.actions
+export default authSlice.reducer;
