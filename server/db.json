@@ -1,0 +1,42 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "Maximax@ukr.net",
+      "password": "123456",
+      "gender": "male"
+    },
+    {
+      "id": 2,
+      "username": "admin@fyn.nope",
+      "password": "123456",
+      "gender": "female"
+    },
+    {
+      "id": 3,
+      "username": "Maboy@agoy.hoy",
+      "password": "456789",
+      "gender": "male"
+    },
+    {
+      "username": "maksim.klisov21@gmail.com",
+      "password": "111111111",
+      "gender": "male",
+      "id": 4
+    }
+  ]
+}
