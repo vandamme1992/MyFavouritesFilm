@@ -8,6 +8,7 @@ const FavouritesPage = () => {
     const {favourites} = useSelector((state: RootState) => state.favouriteFilms);
 
     const {login} = useSelector((state: RootState) => state.auth)
+    console.log(login)
 
     return (
         <div className=' text-center pt-20 font-bold items-center'>
@@ -27,7 +28,7 @@ const FavouritesPage = () => {
                     )
                 }
             </div>
-            ) : <h3>please <Link className={'hover:text-green-500'} to={'/login'}> log in</Link></h3>
+            ) : <h3> <Link className={'hover:text-green-500'} to={'/login'}>please log in</Link></h3>
             }
         </div>
     );

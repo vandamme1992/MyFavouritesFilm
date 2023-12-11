@@ -1,20 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import axios from "axios";
-import {SERVER_URL} from "../utils/constans";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {authAction, authSelector} from "../store/auth/authSlice";
 
 interface IFormInput {
     login: string
     password: string
 }
-
-interface InputObject {
-    [key: string]: any;
-}
-
-
 
 export default function LoginPage() {
     const { register,
@@ -24,10 +16,14 @@ export default function LoginPage() {
     } = useForm<IFormInput>()
 
     const dispatch = useDispatch()
-    const [username, setUsername] = useState('')
 
+   const inLogin = useSelector(authSelector)
 
+    const handleLogout = () => {
+        dispatch(authAction.logoutUser());
+    };
 
+    const {loginUser, logoutUser} = authAction;
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) =>  {
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -35,25 +31,16 @@ export default function LoginPage() {
             username: data.login,
             password: data.password,
         }
-
-       await axios.get(`${SERVER_URL}/users`)
-           .then(res => {
-               const username = res.data
-               const findUserByUsername = (loginName:string) => {
-                   return username.find(user => user.username === username);
-               };
-               console.log(findUserByUsername(username))
-           })
-        // dispatch({data: filteredData.username})
+        dispatch(loginUser({user: filteredData.username}))
         reset()
     }
 
-
     return (
-
-        <form className={'flex  flex-col items-center gap-3  mt-[200px]'}
+        <form className={'flex flex-col items-center gap-3 mt-[200px]'}
               onSubmit={handleSubmit(onSubmit)}>
-            <Link to={'/'}> go back</Link>
+
+            {!inLogin ? (
+                <div className='flex flex-col items-center gap-3 '>
             <h2 className='font-bold'>Login page</h2>
             <label className={'font-bold'}>Email: </label>
             <input className={'border-4 w-[400px]'}
@@ -79,8 +66,17 @@ export default function LoginPage() {
             text-white p-1 pt-2 border-8 mt-2 min-w-[300px]'>
                 Submit
             </button>
-            <Link className={'hover:text-green-500 font-bold'}
-                  to={'/register'}>Don't have an account? Register here</Link>
+                    <Link className={'hover:text-green-500 font-bold'}
+                          to={'/register'}>Don't have an account? Register here</Link>
+                </div>
+) :
+    ( <div className=' flex justify-center flex-col items-center flex-wrap'>Hello {inLogin}
+
+        <button className='hover:text-green-500 font-bold mt-3' onClick={()=>handleLogout}>logout</button>
+    </div> )
+}
+            <Link className={'hover:text-green-500 font-bold '}
+                  to={'/'}>Go main</Link>
         </form>
     )
 }

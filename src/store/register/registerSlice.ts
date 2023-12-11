@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '../../API/api';
+import { SERVER_URL } from '../../API/api';
 
 interface AuthState {
     isAuthenticated: boolean;
@@ -21,9 +21,9 @@ interface User {
 }
 
 
-export const register = createAsyncThunk('auth/register', async (userData: User) => {
+export const registration = createAsyncThunk('auth/register', async (userData: User) => {
     try {
-        const response = await api.post('/users', userData);
+        const response = await SERVER_URL.post('/users', userData);
 
         if (response) {
             return response.data;
@@ -43,15 +43,15 @@ const authSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-        builder.addCase(register.pending, (state) => {
+        builder.addCase(registration.pending, (state) => {
             state.isLoading = true;
             state.error = null;
         });
-        builder.addCase(register.fulfilled, (state) => {
+        builder.addCase(registration.fulfilled, (state) => {
             state.isLoading = false;
             state.isAuthenticated = true;
         });
-        builder.addCase(register.rejected, (state, action) => {
+        builder.addCase(registration.rejected, (state, action) => {
             state.isLoading = false;
             state.error = action.error.message || 'Произошла ошибка';
         });

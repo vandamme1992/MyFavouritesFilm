@@ -25,30 +25,29 @@ const [fav, setIsFav] = useState(favourites.includes(films.Title))
     }
 
     return (
-        <div className='flex-1 m-4 font-bold text-gray-600'>
+        <div className=' m-4 font-bold text-gray-600 hover:-translate-y-1.5 transition hover:shadow-xl'>
             {
-                <div className='' >
-                    <h1 className='hover:bg-gray-200 transition-all'>Title: {films.Title}</h1>
-                    <h2 className='hover:bg-gray-200 transition-all'>Year: {films.Year}</h2>
+                <div className='accent-gray-50' >
+                    <h1 className='text-center'>Title: {films.Title}</h1>
+                    <h2 className='text-center'>Year: {films.Year}</h2>
                     <div className={'absolute pl-2'}>
                         {!fav ? (
-                            <button className='text-3xl text-black hover:text-orange-600'
+                            <button className='text-3xl text-white'
                                     onClick={() => addToFavouriteFilm(films.Title)}
                             >
                                 &#9733;
                             </button>
                         ) : (
-                            <button className='text-3xl text-orange-600 hover:text-black'
+                            <button className='text-3xl text-orange-600'
                                     onClick={() => removeFavouritesFilm(films.Title)}
                             >
                                 &#9733;
                             </button>
                         )}
                     </div>
-
-                    <div className='min-w-[300px] min-h-[200px]'>
+                    <div className=''>
                         <img
-                            className=''
+                            className='bg-cover w-[100%] h-[235px]'
                             src={films.Images[0]}
                             alt="Image"
                         />
