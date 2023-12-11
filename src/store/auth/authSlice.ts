@@ -3,14 +3,13 @@ import { LOGIN_KEY} from "../../utils/constans";
 
 
 export interface AuthState {
-    login: string
+    login: string | null
 }
 
 
 const initialState: AuthState = {
-    login: JSON.parse(localStorage.getItem(LOGIN_KEY) ?? '')
+    login: JSON.parse(localStorage.getItem(LOGIN_KEY) ?? 'false')
 };
-
 
 const authSlice = createSlice({
     name: 'auth',
@@ -27,5 +26,6 @@ const authSlice = createSlice({
     }
 });
 
+export const authSelector = (state: { auth: AuthState }) => state.auth.login;
 export const authAction = authSlice.actions
 export default authSlice.reducer;

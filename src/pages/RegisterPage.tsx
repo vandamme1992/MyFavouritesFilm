@@ -1,8 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import axios from "axios";
-import {SERVER_URL} from "../utils/constans";
+import {registration} from "../store/register/registerSlice";
 
 enum GenderEnum {
     female = "female",
@@ -22,8 +21,6 @@ interface InputObject {
     [key: string]: any;
 }
 
-
-
 export default function RegisterPage() {
     const { register,
         handleSubmit,
@@ -34,6 +31,7 @@ export default function RegisterPage() {
 
     const dispatch = useDispatch()
 
+    const {fulfilled} = registration
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) =>  {
         await new Promise(resolve => setTimeout(resolve, 1000))
@@ -42,10 +40,6 @@ export default function RegisterPage() {
             password: data.password,
             gender: data.gender,
         }
-
-        await axios.post(`${SERVER_URL}/users`, filteredData)
-
-
 
         reset()
     }
@@ -96,7 +90,7 @@ export default function RegisterPage() {
               Submit
             </button>
             <Link className={'hover:text-green-500 font-bold'}
-                to={'/login'}>Login</Link>
+                to={'/login'}>do you have an account? Login</Link>
         </form>
     )
 }

@@ -71,7 +71,7 @@ const Main:React.FC = memo(() => {
             />
             {searchMovies && dropDown &&
 
-            <ul className=' flex flex-col items-center border-2
+            <ul className=' flex flex-col items-center border-4 bg-gray-300
               transition-all absolute top-[100%]
             h-40 w-72 mx-auto mt-1 z-10 overflow-auto list-none '>
                 {  filterSearchValue.map(film => {
@@ -84,8 +84,9 @@ const Main:React.FC = memo(() => {
             </ul>
             }
             </div>
-                    <div className='flex flex-wrap pt-[170px]'>
-            {filterSearchValue?.map((films)=> <CartFilm
+                    <div className='grid grid-cols-4 gap-5'>
+            {filterSearchValue?.map((films)=>
+                <CartFilm
                 films={films}
                 key={films.Title}
             />)}
